@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <link href="style.css" rel="stylesheet"></link>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id='app' v-cloak>
+      <div v-if='!currentAccount'>
+        <button @click='status="signup"'>Signup</button>
+        <button @click='status="login"'>Login</button>
+        <br>
+        <input v-if='status=="signup"' v-model='newAccount.name' type="text" placeholder="name" />
+        <input v-if='status=="signup"' v-model='newAccount.surname' type="text" placeholder="surname" />
+        <input v-if='status=="login" || status=="signup"' v-model='newAccount.email' type="email" placeholder="email" />
+        <input v-if='status=="login" || status=="signup"' v-model='newAccount.password' type="password" placeholder="password" />
+        <button type="button" @click='status == "signup" ? signup():login()' >{{ status == "signup" ? "Signup":"Login"}}</button>
+        <p v-if='errorMessage'>{{errorMessage}}</p>
+      </div>
+      <div v-if='currentAccount'>
+          <button @click='logout()'>Logout</button>
+          <p>Benvenuto {{currentAccount.name}}, {{balance}} €</p>
+          <input type="text" name="" value="" v-model='amount' placeholder="€"/>
+          <button v-for='account in accounts' @click='sendMoney(account._id)' v-if='currentAccount._id != account._id'>{{account.iban}}</button>
+          <br>
+          <p v-for='transation in currentAccount.transations'>{{transition.timestamp}}:{{transation.account1}}-{{transition.amount}}>{{transition.account2}}</p>
+      </div>
+    </div>
+
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-resource/dist/vue-resource.js"></script>
+  <script src="app.js"></script>
+</html>
